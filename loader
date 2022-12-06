@@ -1,3 +1,37 @@
+if game.CoreGui:FindFirstChild("PepsiUi") then
+    game.CoreGui:FindFirstChild("PepsiUi"):Destroy()
+end
+
+
+
+--------------
+_G.AutoThirdSea=false
+_G.AutoFarm=true
+_G.BringMonster=true
+_G.AutoSecondSea=true
+_G.AutoSuperhuman=true
+_G.AutoDeathStep=false
+_G.AutoSharkman=false
+_G.AutoDragonTalon=false
+_G.AutoElectricClaw=false
+_G.BringFruit=true
+_G.FastAttack=true
+_G.Auto_Melee=true
+_G.Auto_Sword=false
+_G.Auto_Defense=true
+_G.Auto_Gun=false
+_G.Auto_DevilFruit=false
+_G.AutoStore=true
+_G.rejoin=true
+_G.AutoBuyLegendarySword=true
+_G.AutoFarm=true
+_G.PointStats=3
+_G.Ai=true
+_G.AutoBuyLegendarySword=true
+_G.KroBlox=false
+_G.HeadHide=false
+----------------
+
 local library = {
 	WorkspaceName = "Name",
 	flags = {},
@@ -7595,7 +7629,9 @@ function GetDistance(target)
 end
 
 
-
+Teleport=function(TP)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame=TP
+end
 
 function Tween(Pos)
     Distance = (Pos.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
@@ -7809,7 +7845,7 @@ end
 
 
 
-function bypasstp(Position)
+function ByPass(Position)
 	game.Players.LocalPlayer.Character.Head:Destroy()
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Position
 	wait(1)
@@ -7830,11 +7866,11 @@ spawn(function()
                 if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
                     StartMagnet = false
                     CheckQuest()
-                    repeat wait() Tween(CFrameQuest) until (CFrameQuest.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 120000000000 or not _G.AutoFarm
+                    repeat wait() Teleport(CFrameQuest) until (CFrameQuest.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 120000000000 or not _G.AutoFarm
                     if (CFrameQuest.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1 then
-                        wait(1.2)
+                        wait()
                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest",NameQuest,LevelQuest)
-                        wait(0.5)
+                        wait()
                     end
                 elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
                     CheckQuest()
@@ -7848,8 +7884,6 @@ spawn(function()
                                             AutoHaki()                                          
                                             PosMon = v.HumanoidRootPart.CFrame
                                             OldPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-											Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,0,10))
-											wait()
 											Tween(v.HumanoidRootPart.CFrame * CFrame.Angles(math.rad(-90), 0, 0) * CFrame.new(0,0,30))
                                             v.HumanoidRootPart.CanCollide = false
 											v.HumanoidRootPart.Size = Vector3.new(50,50,50)
@@ -7859,9 +7893,7 @@ spawn(function()
 											Lob()
                                             game:GetService'VirtualUser':CaptureController()
                                             game:GetService'VirtualUser':Button1Up(Vector2.new(50,50))
-                                        until not _G.AutoFarm or v.Humanoid.Health <= 0 or not v.Parent or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false
-										wait()
-										UnEquipWeapon(_G.SelectWeapon)
+                                        until not _G.AutoFarm or v.Humanoid.Health <= 0 or not v.Parent or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false or UnEquipWeapon(_G.SelectWeapon)
 									else
                                         StartMagnet = false
                                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
@@ -7884,9 +7916,7 @@ spawn(function()
                                 end
                             else
                                 StartMagnet = false
-								wait()
 								UnEquipWeapon(_G.SelectWeapon)
-								wait()
                                 Tween(CFrameMon)
                             end
                         end
@@ -11639,12 +11669,11 @@ local KaiTun2 = KaiTun:CreateSection({Name = "Setting Stats",Side = "Left"})
 local KaiTun2 = KaiTun:CreateSection({Name = "Player List",Side = "Right"})
 local KaiTun6 = KaiTun:CreateSection({Name = "Sword List",Side = "Right"})
 local KaiTun5 = KaiTun:CreateSection({Name = "Melee List",Side = "Left"})
-Gun = KaiTun:CreateSection({Name = "Gun list",Side = "Left"})
-QuestAR = KaiTun:CreateSection({Name = "Quest list",Side = "Left"})
+local Gun = KaiTun:CreateSection({Name = "Gun list",Side = "Left"})
+local QuestAR = KaiTun:CreateSection({Name = "Quest list",Side = "Left"})
 -----------
-KaiTun2:AddLabel({
-Name = "AutoFram : ✅"})
-StastConFig=KaiTun2:AddLabel({Name = "Config : ✅"})
+KaiTun2:AddLabel({Name = "AutoFram : ✅"})
+KaiTun2:AddLabel({Name = "Config : ✅"})
 KaiTun2:AddLabel({Name = "Bypass : ✅"})
 KaiTun2:AddLabel({Name = "FastAttack [Fast] : ✅"})
 -----------
@@ -11695,70 +11724,8 @@ DonSwanQuest = QuestAR:AddLabel({Name = "❌ : Don Swan Quest"})
 KillDonSwan = QuestAR:AddLabel({Name = "❌ : Kill Don Swan"})
 status_phoenix = QuestAR:AddLabel({Name = "❌ : Unlock phoenix Raid"})
 local fullmoon = QuestAR:AddLabel({Name = "❌: Full Moon"})
---------------
-_G.AutoThirdSea=false
-_G.AutoFarm=true
-_G.BringMonster=true
-_G.AutoSecondSea=true
-_G.AutoSuperhuman=true
-_G.AutoDeathStep=false
-_G.AutoSharkman=false
-_G.AutoDragonTalon=false
-_G.AutoElectricClaw=false
-_G.BringFruit=true
-_G.FastAttack=true
-_G.Auto_Melee=true
-_G.Auto_Sword=false
-_G.Auto_Defense=true
-_G.Auto_Gun=false
-_G.Auto_DevilFruit=false
-_G.AutoStore=true
-_G.rejoin=true
-_G.AutoBuyLegendarySword=true
-_G.AutoFarm=true
-_G.PointStats=3
-_G.Ai=true
-_G.AutoBuyLegendarySword=true
-_G.KroBlox=false
-_G.HeadHide=false
-----------------
+
 function Lob()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Beli.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.HP.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Energy.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.StatsButton.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.ShopButton.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Level.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.MenuButton.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Code.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Settings.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Mute.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.CrewButton.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.HomeButton.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.AlliesButton.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Compass.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.DmgCounter.Visible=false
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Version.Text="Vika KaiTun V1.6"
-	wait()
-	game:GetService("Players")["LocalPlayer"].PlayerGui.Main.SafeZone.Visible=true
-	wait()
 	game.Players.LocalPlayer.PlayerGui.Notifications:Destroy()
 	wait()
 	game:GetService("ReplicatedStorage").Effect.Container.Death:Destroy()
@@ -11793,24 +11760,6 @@ task.spawn(function()
 		end
 	end
 end)
-spawn(function()
-    while wait() do
-        pcall(function()
-            if _G.AutoFarm then
-                for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
-                    if v:IsA("Shirt") then
-                        v:Destroy()
-                    end
-                    if v:IsA("Pants") then
-                        v:Destroy()
-                    end
-                    if v:IsA("Accessory") then
-                        v:Destroy()
-                    end
-                end
-            end
-        end)
-    end
-end)
+
 ----------------
 return library, library_flags, library.subs
